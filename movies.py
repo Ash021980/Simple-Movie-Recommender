@@ -18,6 +18,7 @@ def get_movies_from_tastedive(title: str, qtype: str = "movies", limit: int = 5)
 
     if type(resp) is dict:
         return resp
+
     return resp.json()
 
 
@@ -31,6 +32,7 @@ def extract_movie_titles(func: get_movies_from_tastedive) -> list:
     resp_js = func
     resp_lst = resp_js["Similar"]["Results"]
     names_lst = [d["Name"] for d in resp_lst]
+
     return names_lst
 
 
@@ -48,6 +50,7 @@ def get_related_titles(movie_lst: list) -> list:
             return_lst.extend(extract_movie_titles(get_movies_from_tastedive(title)))
     else:
         return return_lst
+
     return list(set(return_lst))
 
 
@@ -65,6 +68,7 @@ def get_movie_data(title: str, dtype: str = "json") -> dict:
 
     if type(resp) is dict:
         return resp
+
     return resp.json()
 
 
@@ -83,6 +87,7 @@ def get_movie_rating(func: get_movie_data) -> int:
         if d["Source"] == "Rotten Tomatoes":
             rating_str = d["Value"]
             rating = int(rating_str.strip("%"))
+
     return rating
 
 
@@ -106,11 +111,13 @@ def get_sorted_recommendations(titles: list) -> list:
         rating_d[movie] = rating
 
     movie_lst = sorted(list(rating_d.keys()), key=lambda x: -rating_d[x])
+
     return movie_lst
 
 
 # Ask the user to enter one or more movies.
 lst_of_movies = input("Select the movie(s) you would like recommendations based on. Separated by a comma(,):\n").split(
     ",")
+
 # Print the results to the console
 print(get_sorted_recommendations(lst_of_movies))
