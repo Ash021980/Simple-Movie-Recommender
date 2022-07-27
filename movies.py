@@ -4,7 +4,7 @@ from omdb_apikey import api_key
 API_KEY = api_key
 
 
-def get_movies_from_tastedive(title: str, qtype: str = "movies", limit: int = 5) -> dict:
+def get_movies_from_tastedive(title: str, q_type: str = "movies", limit: int = 5) -> dict:
     """Function that makes the API call to tastedive.com in order to retrieve similar/related
        movies.  Returns the response object as a dictionary.
 
@@ -12,7 +12,7 @@ def get_movies_from_tastedive(title: str, qtype: str = "movies", limit: int = 5)
        :returns: json response object as a dictionary"""
 
     baseurl = "https://tastedive.com/api/similar"
-    params = {"q": title, "type": qtype, "limit": limit}
+    params = {"q": title, "type": q_type, "limit": limit}
 
     resp = requests_with_caching.get(baseurl, params=params)
 
@@ -54,7 +54,7 @@ def get_related_titles(movie_lst: list) -> list:
     return list(set(return_lst))
 
 
-def get_movie_data(title: str, dtype: str = "json") -> dict:
+def get_movie_data(title: str, d_type: str = "json") -> dict:
     """Function that uses the OMBD API to get data for a specific movie.  Caches the
        response to assist with future calls.  Returns a dict of the movie's data.
 
@@ -63,7 +63,7 @@ def get_movie_data(title: str, dtype: str = "json") -> dict:
 
     baseurl = "http://www.omdbapi.com/"
     key = API_KEY
-    params = {"apikey": key, "t": title, "r": dtype}
+    params = {"apikey": key, "t": title, "r": d_type}
     resp = requests_with_caching.get(baseurl, params=params)
 
     if type(resp) is dict:
